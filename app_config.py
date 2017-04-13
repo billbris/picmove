@@ -13,7 +13,7 @@ ftp_root    = '/'
 #file naming 
 dir_structure  = "album"				#possible:	"date" yyyy/yyyy-mm, "album"
 #dir_structure  = "date"					#possible:	"date" yyyy/yyyy-mm, "album"
-actually_copy  = False						# For testing... 
+actually_copy  = True						# For testing... 
 screen_progess = True
 default_header = "IOS"						# If no header added use this
 header = ""											# This is set in the application (global)
