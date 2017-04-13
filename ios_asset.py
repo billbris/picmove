@@ -6,7 +6,7 @@
 
 import os
 import photos
-from objc_util import *
+from objc_utilX import *
 from pprint import pprint
 import time
 import app_config
@@ -129,13 +129,27 @@ class iosAsset (object):
 		'''
 			Actually copy the file to the target ftp server
 		'''
-		fname = self.resolve_duplicates(filename, dirpath, ftp)
-		if self.asset.media_type == 'image':	#pictures
-			buffer = self.asset.get_image_data(original = False)
-		else:	#videos
-			buffer = self.get_video_content()
+		try:
+			pool = ObjCClass('NSAutoreleasePool').new()
+			fname = self.resolve_duplicates(filename, dirpath, ftp)
+			if self.asset.media_type == 'image':	#pictures
+				buffer = self.asset.get_image_data(original = False)
+			else:	#videos
+				buffer = self.get_video_content()
+				
+			if app_config.screen_progess == True:
+				self.log.info('File: {}'.format(os.path.join(dirpath, fname)))
+			if app_config.actually_copy == True:
+				result = ftp.copy_file(dirpath, fname, buffer)			
+			else:
+				result = True
+			pool.drain()
+			return result
+		except SystemError as e:
+			self.log.error('System Error: {}'.format(e))
+			self.log.error('\tFile: {}'.format(os.path.join(dirpath, fname)))
+			if pool != None:
+				pool.drain()
+			return False
 			
-		if app_config.screen_progess == True:
-			self.log.info('File: {}'.format(os.path.join(dirpath, fname)))
-		return ftp.copy_file(dirpath, fname, buffer)			
 

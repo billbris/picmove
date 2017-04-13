@@ -62,7 +62,7 @@ class iosAlbums (object):
 				copy_count += 1
 			else:
 				error_count += 1
-		self.display_results(copy_count, error_count)
+			self.display_results(copy_count, error_count)
 		
 	def copy_album_dir(self, ftp):
 		'''
@@ -82,7 +82,7 @@ class iosAlbums (object):
 					copy_count += 1
 				else:
 					error_count += 1
-		self.display_results(copy_count, error_count)				
+				self.display_results(copy_count, error_count)				
 		
 	def list(self):
 		pprint(self.albums)
